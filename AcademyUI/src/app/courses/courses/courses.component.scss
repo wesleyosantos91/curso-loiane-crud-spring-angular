@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.loading-spinner {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

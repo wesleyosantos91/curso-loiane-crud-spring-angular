@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: AcademyCore
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/dev
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    locations: classpath:db/migration
+management:
+  metrics:
+    tags:
+      app-name: ${spring.application.name}
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    baggage:
+      correlation:
+        enabled: true
+        fields: [x-correlationID]
+      remote-fields: [x-correlationID]
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - health
+  endpoint:
+    health:
+      show-details: always
+  observations:
+    key-values:
+      my_custom_tag: ${spring.application.name}
