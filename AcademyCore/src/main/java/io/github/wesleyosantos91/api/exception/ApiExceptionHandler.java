@@ -1,9 +1,8 @@
 package io.github.wesleyosantos91.api.exception;
 
+import static java.util.List.of;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-
-import static java.util.List.of;
 
 import io.github.wesleyosantos91.api.v1.response.CustomProblemDetail;
 import io.github.wesleyosantos91.api.v1.response.ErrorResponse;
