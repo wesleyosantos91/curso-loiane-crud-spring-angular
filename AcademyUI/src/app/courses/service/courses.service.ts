@@ -16,15 +16,33 @@ export class CoursesService {
     return this.http.get<Course[]>(this.API)
       .pipe(
         first(),
-        delay(5000),
+        delay(3000),
         tap(courses => console.log(courses))
       );
   }
 
-  save(record: Course): Observable<Course> {
-    return this.http.post<Course>(this.API, record)
+  save(record: Partial<Course>): Observable<Course> {
+    console.log(record);
+    if (record.id) {
+      return this.update(record);
+    }
+    return this.create(record);
+  }
+
+  loadById(id: string) {
+    return this.http.get<Course>(`${this.API}/${id}`)
       .pipe(
-        first()
+        first(),
+        tap(courses => console.log(courses))
       );
   }
+
+  private update(record: Partial<Course>) {
+    return this.http.put<Course>(`${this.API}/${record.id}`, record).pipe(first());
+  }
+
+  private create(record: Partial<Course>) {
+    return this.http.post<Course>(this.API, record).pipe(first());
+  }
+
 }
