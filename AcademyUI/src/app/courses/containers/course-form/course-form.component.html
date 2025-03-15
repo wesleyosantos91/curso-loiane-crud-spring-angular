@@ -8,12 +8,15 @@
       <mat-form-field class="full-width">
         <mat-label>Name</mat-label>
         <input matInput placeholder="Name" formControlName="name">
+        @if (form.get('name')?.invalid) {
+          <mat-error>{{getErrorMessage("name")}}</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
-         <mat-option>None</mat-option>
+         <mat-option></mat-option>
          <mat-option value="front-end">Front-End</mat-option>
           <mat-option value="back-end">Back-End</mat-option>
         </mat-select>

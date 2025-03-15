@@ -48,8 +48,7 @@ public class CourseService {
     }
 
     private CourseEntity getCourse(UUID id) throws ResourceNotFoundException {
-        final var course = repository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(format("Not found registry with code {0}", id)));
-        return course;
     }
 }

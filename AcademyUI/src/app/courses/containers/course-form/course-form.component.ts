@@ -86,4 +86,23 @@ export class CourseFormComponent {
       this.snackBar.open('Error saving course', 'Close', { duration: 5000 });
     }
   }
+
+
+  getErrorMessage(fieldName: string) {
+    const field = this.form.get(fieldName);
+
+    if (field?.hasError('required')) {
+      return 'This field is required';
+    }
+
+    if (field?.hasError('minlength')) {
+      return 'Minimum length is 5 characters';
+    }
+
+    if (field?.hasError('maxlength')) {
+      return 'Maximum length is 100 characters';
+    }
+
+    return 'Invalid value';
+  }
 }

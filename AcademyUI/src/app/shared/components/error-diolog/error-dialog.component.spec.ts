@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ErrorDiologComponent } from './error-dialog.component';
+import { ErrorDialogComponent } from './error-dialog.component';
 
 describe('ErrorDiologComponent', () => {
-  let component: ErrorDiologComponent;
-  let fixture: ComponentFixture<ErrorDiologComponent>;
+  let component: ErrorDialogComponent;
+  let fixture: ComponentFixture<ErrorDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ErrorDiologComponent]
+      imports: [ErrorDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ErrorDiologComponent);
+    fixture = TestBed.createComponent(ErrorDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

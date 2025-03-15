@@ -9,7 +9,6 @@ import io.github.wesleyosantos91.domain.entity.CourseEntity;
 import io.github.wesleyosantos91.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.domain.repository.CourseRepository;
 import io.github.wesleyosantos91.domain.service.CourseService;
-import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

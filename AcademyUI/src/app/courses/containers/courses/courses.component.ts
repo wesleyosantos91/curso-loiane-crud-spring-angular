@@ -4,10 +4,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
+import {
+  ConfirmationDialogComponent
+} from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../../shared/components/error-diolog/error-dialog.component';
 import { CoursesListComponent } from '../../components/courses-list/courses-list.component';
 import { Course } from '../../model/course';
@@ -30,21 +34,15 @@ import { CoursesService } from '../../service/courses.service';
 export class CoursesComponent {
 
   courses$: Observable<Course[]> = of([]);
-  displayedColumns: string[] = ['name', 'category', 'actions'];
 
   constructor(
     private courseService: CoursesService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
-    this.courses$ = this.courseService.list()
-      .pipe(
-        catchError(error => {
-          this.onError('Error loading courses.');
-          return of([]);
-        })
-      );
+    this.refresh()
   }
 
   onError(errorMsg: string) {
@@ -58,7 +56,41 @@ export class CoursesComponent {
   }
 
   onEdit(record: Course) {
-    console.log(record)
     this.router.navigate(['edit', record.id], { relativeTo: this.route });
+  }
+
+  refresh() {
+    this.courses$ = this.courseService.list()
+      .pipe(
+        catchError(error => {
+          this.onError('Error loading courses.');
+          return of([]);
+        })
+      );
+  }
+
+  onRemove(record: Course) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you want to remove this course?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.courseService.remove(record.id)
+          .subscribe({
+            next: () => {
+              this.refresh();
+              this.snackBar.open('Course removed.', 'Close', {
+                duration: 5000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
+              })
+            },
+            error: () => {
+              this.onError('Error removing course.');
+            }
+          });
+      }
+    });
   }
 }
