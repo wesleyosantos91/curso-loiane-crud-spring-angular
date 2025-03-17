@@ -38,7 +38,7 @@ public record CourseController(CourseService service, CourseRepository repositor
     }
 
     @PostMapping
-    public ResponseEntity<CourseResponse> create(@RequestBody CourseRequest request) {
+    public ResponseEntity<CourseResponse> create(@Validated(Groups.Create.class) @RequestBody CourseRequest request) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         LOGGER.debug("Function started 'create course'");

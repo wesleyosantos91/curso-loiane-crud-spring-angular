@@ -8,5 +8,5 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record ErrorResponse(
         String field,
-        String messageError) {
+        String message) {
 }

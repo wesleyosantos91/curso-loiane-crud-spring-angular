@@ -1,7 +1,7 @@
-INSERT INTO tb_courses (name, category)
-VALUES ('Angular', 'front-end'),
-       ('React', 'front-end'),
-       ('Vue', 'front-end'),
-       ('Node', 'back-end'),
-       ('Java', 'back-end'),
-       ('Golang', 'back-end');
+INSERT INTO tb_courses (name, category, status)
+VALUES ('Angular', 'Front-end', 'Active'),
+       ('React', 'Front-end', 'Active'),
+       ('Vue', 'Front-end', 'Active'),
+       ('Node', 'Back-end', 'Active'),
+       ('Java', 'Back-end', 'Active'),
+       ('Golang', 'Back-end', 'Active');

@@ -9,11 +9,17 @@ public class CustomProblemDetail extends ProblemDetail {
 
     private static final String TIMESTAMP = "timestamp";
 
-    public CustomProblemDetail(HttpStatus status, String title, String detail, List<ErrorResponse> errors) {
+    public CustomProblemDetail(HttpStatus status,
+                               String title,
+                               String detail,
+                               String traceId,
+                               List<ErrorResponse> errors) {
+
         this.setStatus(status.value());
         this.setTitle(title);
         this.setDetail(detail);
         this.setProperty(TIMESTAMP, Instant.now());
+        this.setProperty("traceId", traceId);
         this.setProperty("errors", errors);
     }
 }
