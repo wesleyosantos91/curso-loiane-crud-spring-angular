@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface CourseMapper {
 
+    LessonMapper LESSON_MAPPER = Mappers.getMapper(LessonMapper.class);
     CourseMapper MAPPER = Mappers.getMapper(CourseMapper.class);
 
     CourseModel toModel(CourseRequest request);
@@ -36,20 +37,26 @@ public interface CourseMapper {
     CourseModel toModel(CourseQueryRequest query);
 
     @Mappings({
-            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryString")
+            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryString"),
+            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.toSetModel(entity.getLessons()))")
     })
     CourseModel toModel(CourseEntity entity);
 
     @Mappings({
-            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryEnum")
+            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryEnum"),
+            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.toSetEntity(model.getLessons()))")
     })
     CourseEntity toEntity(CourseModel model);
 
     @Mappings({
-            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryEnum")
+            @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryEnum"),
+            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.toSetEntity(model.getLessons()))")
     })
     CourseEntity toEntity(CourseModel model, @MappingTarget CourseEntity entity);
 
+    @Mappings({
+            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.toSetResponse(model.getLessons()))")
+    })
     CourseResponse toResponse(CourseModel model);
 
     default List<CourseModel> toModelList(List<CourseEntity> entities) {

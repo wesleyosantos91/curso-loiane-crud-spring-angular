@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record CourseRequest(
         @NotBlank(groups = {Groups.Create.class, Groups.Update.class})

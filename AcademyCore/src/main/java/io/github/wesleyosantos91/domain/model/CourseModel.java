@@ -1,14 +1,14 @@
 package io.github.wesleyosantos91.domain.model;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class CourseModel {
 
     private UUID id;
-
     private String name;
-
     private String category;
+    private Set<LessonModel> lessons;
 
     public UUID getId() {
         return id;
@@ -34,4 +34,11 @@ public class CourseModel {
         this.category = category;
     }
 
+    public Set<LessonModel> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<LessonModel> lessons) {
+        this.lessons = lessons;
+    }
 }
