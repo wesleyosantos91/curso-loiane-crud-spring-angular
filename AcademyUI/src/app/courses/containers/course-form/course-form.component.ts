@@ -1,6 +1,13 @@
-import { Location } from '@angular/common';
+import { Location, NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -13,6 +20,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../model/course';
+import { Lesson } from '../../model/lesson';
 import { CoursesService } from '../../service/courses.service';
 
 @Component({
@@ -28,7 +36,8 @@ import { CoursesService } from '../../service/courses.service';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    NgForOf
   ],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
@@ -55,8 +64,55 @@ export class CourseFormComponent {
       category: [course.category, [
         Validators.required
       ]],
+      lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
+    });
+
+    console.log(this.form)
+    console.log(this.form.value)
+  }
+
+  private retrieveLessons(course: Course): UntypedFormGroup[] {
+    const lessons: UntypedFormGroup[] = [];
+
+    if (course?.lessons) {
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
+    } else {
+      lessons.push(this.createLesson());
+    }
+
+    return lessons;
+  }
+
+  private createLesson(lesson: Lesson = { id: '', name: '', youtubeUrl: '' }): UntypedFormGroup {
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name, [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(100)
+      ]],
+      youtubeUrl: [lesson.youtubeUrl, [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(15)
+      ]]
     });
   }
+
+  getLessons() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
+  }
+
+  addLesson(): void {
+    const lesson = this.form.get('lessons') as UntypedFormArray;
+    lesson.push(this.createLesson());
+  }
+
+  deleteLesson(index: number) {
+    const lesson = this.form.get('lessons') as UntypedFormArray;
+    lesson.removeAt(index);
+  }
+
 
   onSubmit() {
     this.service.save(this.form.value).subscribe({
@@ -86,7 +142,6 @@ export class CourseFormComponent {
       this.snackBar.open('Error saving course', 'Close', { duration: 5000 });
     }
   }
-
 
   getErrorMessage(fieldName: string) {
     const field = this.form.get(fieldName);

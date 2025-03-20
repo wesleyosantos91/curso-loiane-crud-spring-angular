@@ -6,7 +6,7 @@ public class LessonModel {
 
     private UUID id;
     private String name;
-    private String youtubeurl;
+    private String youtubeUrl;
     private CourseModel course;
 
     public UUID getId() {
@@ -25,12 +25,12 @@ public class LessonModel {
         this.name = name;
     }
 
-    public String getYoutubeurl() {
-        return youtubeurl;
+    public String getYoutubeUrl() {
+        return youtubeUrl;
     }
 
-    public void setYoutubeurl(String youtubeurl) {
-        this.youtubeurl = youtubeurl;
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
     }
 
     public CourseModel getCourse() {

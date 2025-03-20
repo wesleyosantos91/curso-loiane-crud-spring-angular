@@ -1,7 +1,7 @@
 # Step 1: Build the application
 FROM maven:3.9.6-eclipse-temurin-21 as build
 
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN groupadd -r spring && useradd -r -g spring spring
 
 WORKDIR /app
 
@@ -9,15 +9,14 @@ COPY --chown=spring:spring pom.xml ./
 RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline -B
 
 COPY --chown=spring:spring src ./src
-RUN mvn package -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+RUN mvn package -DskipTests && \
+    mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar) && \
+    rm -rf /root/.m2 src pom.xml
 
 # Step 2: Run the application
 FROM eclipse-temurin:21-jre-alpine as runtime
 
 RUN addgroup -S spring && adduser -S spring -G spring
-
-VOLUME /tmp
 
 COPY --chown=spring:spring --from=build /app/target/dependency/BOOT-INF/lib /app/lib
 COPY --chown=spring:spring --from=build /app/target/dependency/META-INF /app/META-INF

@@ -1,5 +1,6 @@
 package io.github.wesleyosantos91.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,8 +31,9 @@ public class LessonEntity {
     @Size(max = 11)
     @NotNull
     @Column(name = "youtube_url", nullable = false, length = 11)
-    private String youtubeurl;
+    private String youtubeUrl;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id")
     private CourseEntity course;
@@ -52,12 +54,12 @@ public class LessonEntity {
         this.name = name;
     }
 
-    public String getYoutubeurl() {
-        return youtubeurl;
+    public String getYoutubeUrl() {
+        return youtubeUrl;
     }
 
-    public void setYoutubeurl(String youtubeurl) {
-        this.youtubeurl = youtubeurl;
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
     }
 
     public CourseEntity getCourse() {

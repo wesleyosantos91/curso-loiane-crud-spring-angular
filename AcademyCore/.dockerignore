@@ -1,0 +1,30 @@
+# Ignorar diretórios do Maven e Gradle
+target/
+out/
+.mvn/
+.gradle/
+build/
+
+# Ignorar configurações locais do sistema operacional/IDE
+*.iml
+*.log
+.idea/
+.vscode/
+*.swp
+
+# Ignorar credenciais e arquivos sensíveis
+*.env
+.envrc
+.DS_Store
+*.pem
+*.key
+*.p12
+*.crt
+
+# Ignorar dependências baixadas (caso já use cache no Dockerfile)
+**/node_modules
+**/.m2/repository/
+
+# Ignorar Dockerfile e docker-compose.yml
+docker-compose.yml
+Dockerfile.local

@@ -9,7 +9,7 @@ import java.util.UUID;
 public record LessonResponse(
         UUID id,
         String name,
-        String youtubeurl,
+        String youtubeUrl,
         @JsonBackReference
         CourseResponse course
 ) {}

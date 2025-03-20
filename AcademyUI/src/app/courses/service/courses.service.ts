@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, first, Observable, tap } from 'rxjs';
+import { plainToInstance } from 'class-transformer';
+import { delay, first, map, Observable, tap } from 'rxjs';
 import { Course } from '../model/course';
+import { Lesson } from '../model/lesson';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,12 @@ export class CoursesService {
   loadById(id: string) {
     return this.http.get<Course>(`${this.API}/${id}`)
       .pipe(
+        map(course => {
+          if (course.lessons) {
+            course.lessons = plainToInstance(Lesson, course.lessons);
+          }
+          return course;
+        }),
         first(),
         tap(courses => console.log(courses))
       );

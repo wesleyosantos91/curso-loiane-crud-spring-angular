@@ -1,6 +1,8 @@
-export interface Course {
+import { Lesson } from './lesson';
 
-  id: string;
-  name: string;
-  category: string;
+export class Course {
+  id?: string;
+  name?: string;
+  category?: string;
+  lessons?: Lesson[];
 }

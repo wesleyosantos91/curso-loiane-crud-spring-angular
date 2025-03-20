@@ -1,5 +1,6 @@
 package io.github.wesleyosantos91.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.github.wesleyosantos91.domain.entity.converter.CategoryEnumConverter;
 import io.github.wesleyosantos91.domain.entity.converter.CourseStatusEnumConverter;
 import io.github.wesleyosantos91.domain.entity.enums.CategoryEnum;
@@ -45,6 +46,7 @@ public class CourseEntity {
     @Column(name = "status", length = 10, nullable = false)
     private CourseStatusEnum status = CourseStatusEnum.ACTIVE;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LessonEntity> lessons = new LinkedHashSet<>();
 

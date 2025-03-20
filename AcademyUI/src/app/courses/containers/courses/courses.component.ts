@@ -76,7 +76,7 @@ export class CoursesComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.courseService.remove(record.id)
+        this.courseService.remove(record.id!)
           .subscribe({
             next: () => {
               this.refresh();

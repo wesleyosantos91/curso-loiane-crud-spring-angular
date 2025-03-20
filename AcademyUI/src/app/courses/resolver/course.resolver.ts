@@ -12,6 +12,7 @@ export const courseResolver: ResolveFn<Course> = (route, state) => {
   return of<Course>({
     id: '',
     name: '',
-    category: ''
+    category: '',
+    lessons: []
   });
 };
