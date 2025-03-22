@@ -11,9 +11,23 @@
 
 <div align="center">
 
+![](https://img.shields.io/badge/Ecossistema-Backend-brightgreen)
+    <br>
+    <img src="https://skillicons.dev/icons?i=java,spring,maven,idea"/>
+    <br>
+![](https://img.shields.io/badge/Ecossistema-Frontend-brightgreen)
+    <br>
+    <img src="https://skillicons.dev/icons?i=angular,nodejs,typescript,js,html,vscode"/>
+    <br>
+    ![](https://img.shields.io/badge/Ecossistema-Infra%20e%20Devops-brightgreen)
+    <br>
+    <img src="https://skillicons.dev/icons?i=docker,git,githubactions,mysql,prometheus,grafana"/> 
+    <br>
+</div>
+
+<div align="center">
+
 ![](https://img.shields.io/badge/Autor-Wesley%20Oliveira%20Santos-brightgreen)
-![](https://img.shields.io/badge/Language-java-brightgreen)
-![](https://img.shields.io/badge/Framework-springboot-brightgreen)
 
 </div>
 
@@ -62,20 +76,31 @@
 | `DATABASE_USERNAME`   | Especifique o user do `postgres` a ser usado (padrão `app` )                      |
 | `DATABASE_PASSWORD`   | Especifique a password do `postgres` a ser usado (padrão `app` )                  |
 
-
-
-</br>
-<a href="https://www.linkedin.com/in/wesleyosantos91/" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" />
-</a>
-
-### AcademyUI
-
 ## Stack Utilizada - AcademyCore
 - **Angular 19**
 - **TypeScript**
 - **Angular Material 19.2.2**
 - **Standalone Components**
+
+### AcademyUI
+| Nome          | Descrição                                                                                                |
+|---------------|----------------------------------------------------------------------------------------------------------|
+| Academy UI | Esse frontend tem a reposnsabilidade de tratar toda a interface do contexto Cursos e Aulas. |
+
+#### Portas
+| Aplicação     | Porta |
+|---------------|-------|
+| AcademyCore | 4200  |
+
+#### Setup
+
+- ##### Variáveis de ambiente
+| `NOME_ENV`       | Descrição variável de ambitente 
+
+</br>
+<a href="https://www.linkedin.com/in/wesleyosantos91/" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" />
+</a>
 
 </br>
 <b>Developed by Wesley Oliveira Santos</b>
