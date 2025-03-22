@@ -6,6 +6,7 @@ import io.github.wesleyosantos91.core.validation.Groups;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.Set;
 
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -16,6 +17,7 @@ public record CourseRequest(
         @NotBlank(groups = {Groups.Create.class, Groups.Update.class})
         @Size(max = 10, groups = {Groups.Create.class, Groups.Update.class})
         @Pattern(regexp = "Back-end|Front-end", groups = {Groups.Create.class, Groups.Update.class})
-        String category
+        String category,
+        Set<LessonRequest> lessons
 ) {
 }

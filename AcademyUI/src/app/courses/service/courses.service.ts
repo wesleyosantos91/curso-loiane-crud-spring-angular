@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { plainToInstance } from 'class-transformer';
+import { classToPlain, plainToInstance } from 'class-transformer';
 import { delay, first, map, Observable, tap } from 'rxjs';
 import { Course } from '../model/course';
 import { Lesson } from '../model/lesson';
@@ -19,16 +19,30 @@ export class CoursesService {
       .pipe(
         first(),
         delay(3000),
-        tap(courses => console.log(courses))
       );
   }
 
   save(record: Partial<Course>): Observable<Course> {
-    console.log(record);
-    if (record.id) {
-      return this.update(record);
+
+    const transformLessonIds = (lessons: any[]): any[] => {
+      return lessons.map(lesson => {
+        if (lesson.youtubeUrl) {
+          lesson.youtube_url = lesson.youtubeUrl;
+          delete lesson.youtubeUrl;
+        }
+        return lesson;
+      });
+    };
+
+    const payload = {
+      ...record,
+      lessons: record.lessons ? transformLessonIds(record.lessons) : []
+    };
+
+    if (payload.id) {
+      return this.update(payload);
     }
-    return this.create(record);
+    return this.create(payload);
   }
 
   loadById(id: string) {
@@ -41,7 +55,6 @@ export class CoursesService {
           return course;
         }),
         first(),
-        tap(courses => console.log(courses))
       );
   }
 

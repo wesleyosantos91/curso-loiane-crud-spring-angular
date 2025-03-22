@@ -5,12 +5,18 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 import io.github.wesleyosantos91.api.v1.request.CourseQueryRequest;
 import io.github.wesleyosantos91.api.v1.request.CourseRequest;
+import io.github.wesleyosantos91.api.v1.request.LessonRequest;
 import io.github.wesleyosantos91.api.v1.response.CourseResponse;
 import io.github.wesleyosantos91.domain.entity.CourseEntity;
+import io.github.wesleyosantos91.domain.entity.LessonEntity;
 import io.github.wesleyosantos91.domain.entity.enums.CategoryEnum;
 import io.github.wesleyosantos91.domain.model.CourseModel;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -32,6 +38,9 @@ public interface CourseMapper {
     LessonMapper LESSON_MAPPER = Mappers.getMapper(LessonMapper.class);
     CourseMapper MAPPER = Mappers.getMapper(CourseMapper.class);
 
+    @Mappings({
+            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.requestToSetModel(request.lessons()))")
+    })
     CourseModel toModel(CourseRequest request);
 
     CourseModel toModel(CourseQueryRequest query);
@@ -50,7 +59,7 @@ public interface CourseMapper {
 
     @Mappings({
             @Mapping(source = "category", target = "category", qualifiedByName = "toCategoryEnum"),
-            @Mapping(target = "lessons", expression = "java(LESSON_MAPPER.toSetEntity(model.getLessons()))")
+            @Mapping(target = "lessons", ignore = true)
     })
     CourseEntity toEntity(CourseModel model, @MappingTarget CourseEntity entity);
 
@@ -85,6 +94,17 @@ public interface CourseMapper {
     @Named("toCategoryString")
     default String toCategoryString(CategoryEnum category) {
         return category.getValue();
+    }
+
+    @AfterMapping
+    default void updateLessons(CourseModel model, @MappingTarget CourseEntity entity) {
+        Optional.ofNullable(model.getLessons())
+                .map(LESSON_MAPPER::toSetEntity)
+                .ifPresent(lessonEntities -> {
+                    lessonEntities.forEach(lesson -> lesson.setCourse(entity));
+                    entity.getLessons().clear();
+                    entity.getLessons().addAll(lessonEntities);
+                });
     }
 
 }

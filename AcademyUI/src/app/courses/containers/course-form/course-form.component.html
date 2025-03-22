@@ -16,7 +16,6 @@
       <mat-form-field class="full-width">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
-         <mat-option></mat-option>
          <mat-option value="Front-end">Front-End</mat-option>
           <mat-option value="Back-end">Back-End</mat-option>
         </mat-select>
@@ -29,16 +28,17 @@
         </button>
       </mat-toolbar>
 
-      <table style="width: 100%"
-              formArrayName="lessons"
-              *ngFor="let lesson of getLessons(); let i = index"
-      >
+      @for (lesson of getLessons(); track lesson; let i = $index) {
+      <table style="width: 100%" formArrayName="lessons">
         <tbody>
           <tr [formGroupName]="i">
             <td style="width: 65%">
               <mat-form-field class="full-width">
                 <mat-label>Title Lesson</mat-label>
                 <input matInput formControlName="name">
+                @if (getLessons()[i].get('name')?.invalid) {
+                  <mat-error>{{getLessonErrorMessage('name', i)}}</mat-error>
+                }
               </mat-form-field>
             </td>
             <td style="width: 30%">
@@ -46,6 +46,9 @@
                 <mat-label>URL</mat-label>
                 <span matPrefix>https://youtu.br/</span>
                 <input matInput formControlName="youtubeUrl">
+                @if (getLessons()[i].get('youtubeUrl')?.invalid) {
+                  <mat-error>{{getLessonErrorMessage('youtubeUrl', i)}}</mat-error>
+                }
               </mat-form-field>
             </td>
             <td class="w-5 text-align-center vertical-align-top">
@@ -56,6 +59,7 @@
           </tr>
         </tbody>
       </table>
+      }
     </form>
   </mat-card-content>
 

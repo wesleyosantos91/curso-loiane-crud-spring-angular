@@ -7,6 +7,7 @@ import io.github.wesleyosantos91.api.v1.response.CourseResponse;
 import io.github.wesleyosantos91.core.validation.Groups;
 import io.github.wesleyosantos91.domain.entity.CourseEntity;
 import io.github.wesleyosantos91.domain.exception.ResourceNotFoundException;
+import io.github.wesleyosantos91.domain.model.CourseModel;
 import io.github.wesleyosantos91.domain.repository.CourseRepository;
 import io.github.wesleyosantos91.domain.service.CourseService;
 import java.util.List;
@@ -67,7 +68,7 @@ public record CourseController(CourseService service, CourseRepository repositor
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         LOGGER.debug("Function started 'update course'");
-        final var course = service.update(id, MAPPER.toModel(request));
+        final CourseModel course = service.update(id, MAPPER.toModel(request));
         stopWatch.stop();
         LOGGER.debug("Finished function with success 'update course' {} in {} ms", course, stopWatch.getTotalTimeMillis());
         return ResponseEntity.status(HttpStatus.OK).body(MAPPER.toResponse(course));

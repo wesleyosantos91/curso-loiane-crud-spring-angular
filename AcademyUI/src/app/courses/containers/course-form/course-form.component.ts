@@ -1,13 +1,6 @@
-import { Location, NgForOf } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  UntypedFormArray,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -19,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
+import { FormUtilsService } from '../../../shared/service/form/form-utils.service';
 import { Course } from '../../model/course';
 import { Lesson } from '../../model/lesson';
 import { CoursesService } from '../../service/courses.service';
@@ -36,8 +30,7 @@ import { CoursesService } from '../../service/courses.service';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    MatDialogModule,
-    NgForOf
+    MatDialogModule
   ],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
@@ -46,11 +39,12 @@ export class CourseFormComponent {
 
   form!: FormGroup;
 
-  constructor(private formBuilder: NonNullableFormBuilder,
-              private service: CoursesService,
-              private snackBar: MatSnackBar,
-              private location: Location,
-              private router: ActivatedRoute) {
+  constructor(private readonly formBuilder: NonNullableFormBuilder,
+              private readonly service: CoursesService,
+              private readonly snackBar: MatSnackBar,
+              private readonly location: Location,
+              private readonly router: ActivatedRoute,
+              private readonly formUtils: FormUtilsService) {
 
     const course: Course = this.router.snapshot.data['course'];
 
@@ -66,36 +60,29 @@ export class CourseFormComponent {
       ]],
       lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
     });
-
-    console.log(this.form)
-    console.log(this.form.value)
   }
 
-  private retrieveLessons(course: Course): UntypedFormGroup[] {
-    const lessons: UntypedFormGroup[] = [];
-
+  private retrieveLessons(course: Course) {
+    const lessons = [];
     if (course?.lessons) {
       course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
     } else {
       lessons.push(this.createLesson());
     }
-
     return lessons;
   }
 
-  private createLesson(lesson: Lesson = { id: '', name: '', youtubeUrl: '' }): UntypedFormGroup {
+  private createLesson(lesson: Lesson = { id: '', name: '', youtubeUrl: '' }) {
     return this.formBuilder.group({
       id: [lesson.id],
-      name: [lesson.name, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100)
-      ]],
-      youtubeUrl: [lesson.youtubeUrl, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(15)
-      ]]
+      name: [
+        lesson.name,
+        [Validators.required, Validators.minLength(5), Validators.maxLength(100)]
+      ],
+      youtubeUrl: [
+        lesson.youtubeUrl,
+        [Validators.required, Validators.minLength(10), Validators.maxLength(11)]
+      ]
     });
   }
 
@@ -115,10 +102,15 @@ export class CourseFormComponent {
 
 
   onSubmit() {
-    this.service.save(this.form.value).subscribe({
-      next: (result) => this.onSuccess(this.form.value),
-      error: (error) => this.onError(this.form.value)
-    });
+    if (this.form.valid) {
+      console.log(this.form.value)
+      this.service.save(this.form.value).subscribe({
+        next: (result) => this.onSuccess(this.form.value),
+        error: (error) => this.onError(this.form.value)
+      });
+    } else {
+      this.formUtils.validateAllFormFields(this.form);
+    }
   }
 
   onCancel() {
@@ -143,21 +135,16 @@ export class CourseFormComponent {
     }
   }
 
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
+  getErrorMessage(fieldName: string): string {
+    return this.formUtils.getFieldErrorMessage(this.form, fieldName);
+  }
 
-    if (field?.hasError('required')) {
-      return 'This field is required';
-    }
-
-    if (field?.hasError('minlength')) {
-      return 'Minimum length is 5 characters';
-    }
-
-    if (field?.hasError('maxlength')) {
-      return 'Maximum length is 100 characters';
-    }
-
-    return 'Invalid value';
+  getLessonErrorMessage(fieldName: string, index: number) {
+    return this.formUtils.getFieldFormArrayErrorMessage(
+      this.form,
+      'lessons',
+      fieldName,
+      index
+    );
   }
 }

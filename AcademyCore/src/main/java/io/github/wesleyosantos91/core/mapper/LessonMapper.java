@@ -3,6 +3,7 @@ package io.github.wesleyosantos91.core.mapper;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
+import io.github.wesleyosantos91.api.v1.request.LessonRequest;
 import io.github.wesleyosantos91.api.v1.response.LessonResponse;
 import io.github.wesleyosantos91.domain.entity.LessonEntity;
 import io.github.wesleyosantos91.domain.model.LessonModel;
@@ -28,6 +29,11 @@ public interface LessonMapper {
     @Mappings({
             @Mapping(target = "course", ignore = true)
     })
+    LessonModel toModel(LessonRequest request);
+
+    @Mappings({
+            @Mapping(target = "course", ignore = true)
+    })
     LessonEntity toEntity(LessonModel model);
 
     @Mappings({
@@ -35,9 +41,11 @@ public interface LessonMapper {
     })
     LessonResponse toResponse(LessonModel model);
 
-    Set<LessonModel> toSetModel(Set<LessonEntity> entity);
+    Set<LessonModel> toSetModel(Set<LessonEntity> entities);
 
-    Set<LessonEntity> toSetEntity(Set<LessonModel> model);
+    Set<LessonModel> requestToSetModel(Set<LessonRequest> requests);
 
-    Set<LessonResponse> toSetResponse(Set<LessonModel> model);
+    Set<LessonEntity> toSetEntity(Set<LessonModel> models);
+
+    Set<LessonResponse> toSetResponse(Set<LessonModel> models);
 }
