@@ -76,7 +76,20 @@
 | `DATABASE_USERNAME`   | Especifique o user do `postgres` a ser usado (padrão `app` )                      |
 | `DATABASE_PASSWORD`   | Especifique a password do `postgres` a ser usado (padrão `app` )                  |
 
+<<<<<<< HEAD
 ## Stack Utilizada - AcademyCore
+=======
+
+
+</br>
+<a href="https://www.linkedin.com/in/wesleyosantos91/" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" />
+</a>
+
+### AcademyUI
+
+## Stack Utilizada - AcademyUI
+>>>>>>> b2d38d11238eccb078991415b47b968b47cdebdb
 - **Angular 19**
 - **TypeScript**
 - **Angular Material 19.2.2**
