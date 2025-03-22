@@ -31,15 +31,6 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
-    <developers>
-        <developer>
-            <email>wesleyosantos91@gmail.com</email>
-            <id>wesleyosantos91</id>
-            <name>Wesley Oliveira Santos</name>
-            <url>https://wesleyosantos91.github.io/</url>
-        </developer>
-    </developers>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
