@@ -71,7 +71,7 @@
 
 ### AcademyUI
 
-## Stack Utilizada - AcademyCore
+## Stack Utilizada - AcademyUI
 - **Angular 19**
 - **TypeScript**
 - **Angular Material 19.2.2**
