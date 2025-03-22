@@ -8,6 +8,8 @@ import io.github.wesleyosantos91.domain.exception.ResourceNotFoundException;
 import io.github.wesleyosantos91.domain.model.CourseModel;
 import io.github.wesleyosantos91.domain.repository.CourseRepository;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,14 @@ public class CourseService {
         return repository.findById(id)
                 .map(MAPPER::toModel)
                 .orElseThrow(() -> new ResourceNotFoundException(format("Not found regitstry with code {0}", id)));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CourseModel> search(CourseModel model, Pageable pageable) {
+
+        final var page = repository.search(MAPPER.toEntity(model), pageable);
+
+        return MAPPER.toPageModel(page);
     }
 
     @Transactional
